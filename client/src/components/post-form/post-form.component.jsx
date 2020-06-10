@@ -1,36 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useMutation } from '@apollo/react-hooks';
 import { CREATE_POST } from 'gql/posts/mutation';
 import { GET_POSTS } from 'gql/posts/query';
 
-import { Form, Header, Button } from 'semantic-ui-react';
-
-import { POST_FIELD } from 'config/fields';
-import useForm from 'utils/hooks/use-form';
+import { Form, Button, TextArea } from 'semantic-ui-react';
 
 /* -------------------------------------------------------------------------- */
 
 const PostForm = () => {
-  const callback = () => createPost();
-
-  const { values, onSubmit, renderFields, setErrors } = useForm({ body: '' }, POST_FIELD, callback, true);
+  const [value, setValues] = useState('');
 
   const [createPost, { loading }] = useMutation(CREATE_POST, {
-    update: () => (values.body = ''),
-    onError: err => setErrors(err.graphQLErrors[0].extensions.exception.errors),
-    variables: values,
+    update: () => setValues(''),
+    variables: { body: value },
     refetchQueries: [{ query: GET_POSTS }],
   });
 
+  const onChange = e => setValues(e.target.value);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    createPost();
+  };
+
   return (
     <Form onSubmit={onSubmit} className={loading ? 'loading' : ''}>
-      <Header as="h4">Create a post:</Header>
+      <Form.Field>
+        <TextArea onChange={onChange} value={value} style={{ minHeight: '96px' }} />
+      </Form.Field>
 
-      <Form.Field>{renderFields()}</Form.Field>
-
-      <Button type="submit" color="teal">
-        Submit
+      <Button type="submit" color="teal" size="small" disabled={value.trim() === ''}>
+        Create Post
       </Button>
     </Form>
   );

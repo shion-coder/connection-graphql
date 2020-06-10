@@ -8,9 +8,7 @@ const useForm = (initialState = {}, fields, callback, boolean) => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
 
-  const onChange = event => {
-    setValues({ ...values, [event.target.name]: event.target.value });
-  };
+  const onChange = event => setValues({ ...values, [event.target.name]: event.target.value });
 
   const onSubmit = event => {
     event.preventDefault();
