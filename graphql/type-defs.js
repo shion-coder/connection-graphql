@@ -12,35 +12,35 @@ const typeDefs = gql`
   }
 
   type User {
-    id: ID
-    name: String
-    username: String
-    email: String
-    date: String
-    token: String
+    id: ID!
+    name: String!
+    username: String!
+    email: String!
+    date: String!
+    token: String!
   }
 
   type Like {
-    id: ID
-    name: String
-    username: String
-    date: String
+    id: ID!
+    name: String!
+    username: String!
+    date: String!
   }
 
   type Comment {
-    id: ID
-    name: String
-    username: String
-    body: String
-    date: String
+    id: ID!
+    name: String!
+    username: String!
+    body: String!
+    date: String!
   }
 
   type Post {
-    id: ID
-    name: String
-    username: String
-    body: String
-    date: String
+    id: ID!
+    name: String!
+    username: String!
+    body: String!
+    date: String!
     likes: [Like]
     comments: [Comment]
     likeCount: Int
